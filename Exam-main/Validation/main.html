@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <script src="CommonFunctions.js"></script>  
+    <style>
+        body{
+            font-size: 16px;
+            background-color:darkgrey;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        h1{
+          text-align: center;
+          text-decoration: underline;  
+        }
+
+        form{
+            width : 500px;
+            padding : 15px;
+            border : 2px solid cornflowerblue;
+            margin: 50px auto 0;
+            border-radius: 5px;  
+        }
+
+        label{
+            display:block;
+            margin-bottom: 5px;
+        }
+
+        input, select{
+            border:1px darkcyan;
+            padding:10px;
+            display:block;
+            width:95%;
+            border-radius: 2px;
+        }
+        input.inline{
+            display:inline-block;
+            width: auto;
+            padding-right: 15px;
+        }
+        .row{
+            padding-bottom: 15px;
+        }
+        .err{
+            font-size:0.8em;
+            color :indianred;
+        }
+        .h{
+            display:block;
+            width:95%;
+            height: 50px;
+            border-color:yellow;
+            background-color:lightskyblue;
+            margin-top: 15px;
+            box-shadow:darkmagenta
+        }
+        .display{
+            text-align: center;
+            align-content: center;
+        }
+        .b{
+            display:block;
+            width:50%;
+            height: 50px;
+            border-color:rgb(255, 0, 43);
+            background-color:lightskyblue;
+            margin-top: 15px;
+            box-shadow: 0 3px 4px blue;
+            margin: auto;
+
+        }
+    </style>
+    <script>
+        function showErr(ele, msg){
+            $get(ele).innerText = msg;
+        }
+        function validate(){
+            //get all the values....
+            let name = document.regForm.name.value;
+            let email = document.regForm.email.value;
+            let mobile = document.regForm.phone.value;
+            let uamount = document.regForm.amount.value;
+            let uDate = document.regForm.date.value;
+            //name validation
+            if(name == "" || name == null){
+                showErr("errName", "Name is mandatory")
+                return false;
+            }else{
+                showErr("errName", "")
+            }
+            //email validation    
+            if(email == ""){
+                showErr("errEmail", "Email is mandatory")
+                return false;
+            }else{
+                showErr("errEmail", "")
+            }
+            let regEx = new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$");
+            if(regEx.test(email) == false){
+                showErr("errEmail", "Email is not in a valid format")
+                return false;
+            } else {
+                showErr("errEmail", "")
+            }
+            //phone no validation
+            regEx = new RegExp("^[0-9]{10}$");
+            if(mobile == "" || (!regEx.test(mobile))){
+               showErr("errPhone", "phone is not in a valid format")
+                return false;
+            }
+            else {
+                showErr("errPhone", "")
+            }
+           
+            if(uamount == "")
+                return false;    
+            return true;//After all the validations are done successfully
+        }
+        function showData(){
+            document.getElementById("display").innerHTML = "";
+            uName = document.forms.regForm.name.value;
+            uEmail = document.regForm.email.value;
+            uphone = document.regForm.phone.value;
+            uamount = document.regForm.amount.value;
+            uDate = document.forms.regForm.date.value;
+            document.getElementById("display").innerHTML += "Name: " + uName + "<br />";
+            document.getElementById("display").innerHTML += "Email: " + uEmail + "<br />";
+            document.getElementById("display").innerHTML += "Phone: " + uphone + "<br />";
+            document.getElementById("display").innerHTML += "Amount " + uamount + "<br />";
+            document.getElementById("display").innerHTML += "Date: " + uDate + "<br />";
+
+        }
+        function final(){
+            validate();
+            showData();
+            alert("The content is saved");
+        }
+        function register()
+        {
+            if(validate()==true)
+            {
+            alert("registered");
+            }
+        }
+    
+    </script>
+</head>
+<body>
+    <form action=" " name="regForm" novalidate="true" onsubmit="return validate()">
+        <h1>Customer Details</h1>
+        <div class="row">
+            <label for="name">Full Name</label>
+            <input type="text" name="name" id="name"/>
+            <div id="errName" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="email">Email Address</label>
+            <input type="email" name="email" id="email" />
+            <div id="errEmail" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="phone">Mobile phone</label>
+            <input type="text" id="phone" name="phone" />
+            <div id="errPhone" class="err"></div>
+        </div>
+        
+        <div class="row">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date">
+            <div id="errDate" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="amount">Billing Amount</label>
+            <input type="text" id="amount" name="amount" />
+            <div id="errAmount" class="err"></div>
+        </div>
+        <input class="b" type="button" value="Display" onclick="final()"/>
+        <button class="h" onclick="register()">Register</button>
+    </form>
+   
+    <div id="display"></div>
+</body>
+</html>
